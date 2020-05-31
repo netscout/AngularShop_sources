@@ -1,0 +1,17 @@
+version: '3'
+
+volumes:
+    mysql_dev: {}
+
+services:
+    db:
+        image: mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_dev:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=123456
+            - MYSQL_DATABASE=AngularShop            
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=1234
