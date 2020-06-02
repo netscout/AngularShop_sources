@@ -21,7 +21,6 @@ data class Category(
         @JoinColumn(name="parentId")
         var parent: Category? = null,
 
-        @JsonIgnore
         @OneToMany(mappedBy = "parent", cascade = [CascadeType.REMOVE], orphanRemoval = true)
         var children: List<Category>? = null,
 

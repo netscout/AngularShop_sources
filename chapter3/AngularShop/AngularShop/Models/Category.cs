@@ -22,7 +22,6 @@ namespace AngularShop.Models
         [JsonIgnore]
         public virtual List<ProductCategory> ProductCategories { get; set; }
 
-        [JsonIgnore]
         public virtual List<Category> Children { get; set; }
 
         [JsonIgnore]
