@@ -1,0 +1,116 @@
+<app-admin-header></app-admin-header>
+
+<h1>상품 목록</h1>
+
+<p *ngIf="!products"><em>불러오는 중...</em></p>
+
+<div class="commands text-right"
+  *ngIf="products">
+  <button type="submit"
+    [routerLink]="['/admin-product-new']"
+    class="btn btn-success">
+    상품 등록
+  </button>
+</div>
+
+<div>
+  <mat-form-field class="width50p inline" [hidden]="!products">
+    <input matInput (keyup)="loadData($event.target.value)"
+      placeholder="제목으로 검색...">
+  </mat-form-field>
+
+  <div class="commands inline">
+    <button type="button"
+      class="btn btn-primary"
+      (click)="clearFilter()">
+      검색 초기화
+    </button>
+  </div>
+</div>
+
+<table
+  mat-table
+  [dataSource]="products"
+  class="mat-elevation-z8 width100p"
+  [hidden]="!products"
+  matSort (matSortChange)="loadData()"
+  matSortActive="{{defaultSortColumn}}"
+  matSortDirection="{{defaultSortOrder}}">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>번호</th>
+    <td mat-cell *matCellDef="let product">{{product.id}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>상품명</th>
+    <td mat-cell *matCellDef="let product">
+      <a [routerLink]="['/admin-product-edit', product.id]">
+        {{product.name}}
+      </a>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="makerName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>제조사</th>
+    <td mat-cell *matCellDef="let product">{{product.makerName}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="tags">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>태그</th>
+    <td mat-cell *matCellDef="let product">{{product.tags ? product.tags : "없음"}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>가격</th>
+    <td mat-cell *matCellDef="let product">{{product.price}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="discount">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>할인율(%)</th>
+    <td mat-cell *matCellDef="let product">{{product.discount ? product.discount : "없음"}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="stockCount">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>재고</th>
+    <td mat-cell *matCellDef="let product">{{product.stockCount}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="isVisible">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>판매중</th>
+    <td mat-cell *matCellDef="let product">{{product.isVisible}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="createdDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>등록일</th>
+    <td mat-cell *matCellDef="let product">
+      {{product.createdDate | customDate}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="modifiedDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>수정일</th>
+    <td mat-cell *matCellDef="let product">
+      {{product.modifiedDate | customDate}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="categories">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>분류</th>
+    <td mat-cell *matCellDef="let product">{{ getCategoryNames(product) }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="photoUrls">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>사진</th>
+    <td mat-cell *matCellDef="let product">
+      <img class="list-item-image" [src]="getTitlePhotoUrl(product)">
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [hidden]="!products"
+  (page)="getData($event)"
+  [pageSize]="10"
+  [pageSizeOptions]="[10, 20, 50]"
+  showFirstLastButtons>
+</mat-paginator>

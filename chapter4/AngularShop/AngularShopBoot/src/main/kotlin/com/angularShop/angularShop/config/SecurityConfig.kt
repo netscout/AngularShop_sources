@@ -12,7 +12,11 @@ class SecurityConfig(
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(web: WebSecurity) {
         //정적 컨텐츠는 인증 없이 접근 가능하도록 설정
-        web.ignoring().antMatchers("/resources/**").anyRequest()
+        web.ignoring()
+                .antMatchers("/images/**")
+                .antMatchers("/styles/**")
+                .antMatchers("/js/**")
+                .antMatchers("/plugins/**")
     }
 
     override fun configure(http: HttpSecurity) {
