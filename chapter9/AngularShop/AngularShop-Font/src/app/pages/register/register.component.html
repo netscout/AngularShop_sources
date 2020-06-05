@@ -1,0 +1,105 @@
+<div class="col-md-6 offset-md-3 mt-5">
+  <div class="card" *ngIf="!registerSucceed">
+    <h4 *ngIf="!fromKakao()" class="card-header">회원 가입</h4>
+    <h4 *ngIf="fromKakao()" class="card-header">이메일 등록(카카오 계정)</h4>
+
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">이메일:</label>
+          <input
+            type="text"
+            id="email"
+            formControlName="email"
+            required
+            placeholder="이메일을 입력하세요..."
+            class="form-control"
+          />
+
+          <div *ngIf="hasError('email')" class="invalid-feedback">
+            <div *ngIf="hasRequiredError('email')">
+              아이디는 필수입니다.
+            </div>
+            <div *ngIf="hasPatternError('email')">
+              아이디는 형식에 맞는 이메일이어야 합니다.
+            </div>
+            <div *ngIf="hasDupeFieldError('email')">
+              이미 존재하는 이메일입니다.
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="needPassword()" class="form-group">
+          <label for="password">패스워드</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            required
+            class="form-control"
+          />
+          <div *ngIf="hasError('password')" class="invalid-feedback">
+            <div *ngIf="hasRequiredError('password')">
+              패스워드는 필수입니다.
+            </div>
+            <div *ngIf="hasPatternError('password')">
+              패스워드는 최소 8자 이상으로, 하나 이상의 알파벳 소문자, 하나 이상의 숫자, 하나 이상의 특수문자를 포함해야 합니다.
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="needPassword()" class="form-group">
+          <label for="password">패스워드 확인</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            required
+            class="form-control"
+          />
+          <div *ngIf="hasError('confirmPassword')" class="invalid-feedback">
+            <div *ngIf="hasRequiredError('confirmPassword')">
+              패스워드는 필수입니다.
+            </div>
+            <div *ngIf="hasPatternError('confirmPassword')">
+              패스워드는 최소 8자 이상으로, 하나 이상의 알파벳 소문자, 하나 이상의 숫자, 하나 이상의 특수문자를 포함해야 합니다.
+            </div>
+          </div>
+        </div>
+        <div *ngIf="hasNotPasswordMatchError()" class="alert alert-danger mt-3 mb-0">
+          입력된 값이 패스워드와 같아야 합니다.
+        </div>
+
+        <div class="form-group command">
+          <button
+            type="submit"
+            [disabled]="form.invalid || loading"
+            class="btn btn-success">
+            <span
+              *ngIf="loading"
+              class="spinner-border spinner-border-sm mr-1"
+            ></span>
+            등록
+          </button>
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+          {{ error }}
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="!fromKakao() && registerSucceed">
+    <div class="card-header">회원 가입이 완료되었습니다.</div>
+    <div class="card-body">
+      <div class="card-text">
+        <p><strong>{{ name }}</strong>님 회원 가입을 축하드립니다.</p>
+        <p>가입에 사용된 이메일: {{getValue('email')}}</p>
+        <p>위 이메일을 통해 로그인을 진행해주세요.</p>
+        <a class="btn btn-primary"
+            [routerLink]="['/login']">로그인 하기</a>
+      </div>
+    </div>
+  </div>
+</div>

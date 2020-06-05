@@ -1,0 +1,162 @@
+<div class="category-edit">
+  <h1>{{ title }}</h1>
+
+  <div *ngIf="order"
+  class="form"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="userName">주문자:</label>
+      <br />
+      <input
+        type="text"
+        id="userName"
+        formControlName="userName"
+        required
+        placeholder="주문자..."
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="toName">받는 사람:</label>
+      <br />
+      <input
+        type="text"
+        id="toName"
+        formControlName="toName"
+        required
+        placeholder="받는 사람..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('toName')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('toName')">
+          받는 사람은 필수입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address1">주소1:</label>
+      <br />
+      <input
+        type="text"
+        id="address1"
+        formControlName="address1"
+        required
+        placeholder="주소1..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('address1')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('address1')">
+          주소1은 필수입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address2">주소2:</label>
+      <br />
+      <input
+        type="text"
+        id="address2"
+        formControlName="address2"
+        required
+        placeholder="주소2..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('address2')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('address2')">
+          주소2는 필수입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">전화번호:</label>
+      <br />
+      <input
+        type="text"
+        id="phone"
+        formControlName="phone"
+        required
+        placeholder="전화번호..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('phone')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('phone')">
+          전화번호는 필수입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">주문 상세:</label>
+      <br />
+      <div class="form-control">
+        <div
+          *ngFor="let oi of order.orderItems">
+          {{ oi.productName }} * {{ oi.qty }} = {{ oi.price }}
+        </div>
+        <div>
+          총 주문 금액 : {{ order.totalPrice }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="categoryId">주문 상태:</label>
+      <br>
+      <mat-form-field *ngIf="orderStatuses" style="width:100%;">
+        <mat-label>주문상태를 선택하세요...</mat-label>
+        <mat-select id="orderStatusId" formControlName="orderStatusId">
+          <mat-option
+            *ngFor="let orderStatus of orderStatuses; let idx=index"
+            [value]="idx">
+            {{orderStatus}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="hasError('orderStatusId')"
+        class="invalid-feedback">
+        <div *ngIf="hasRequiredError('orderStatusId')">
+          주문 상태를 선택해주세요.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="createdDate">주문 일자:</label>
+      <br />
+      {{ order.createdDate | customDate}}
+    </div>
+
+    <div class="form-group command">
+      <button
+        *ngIf="id"
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="form.invalid || loading"
+        class="btn btn-success"
+      >
+        수정
+      </button>
+      <button
+        type="submit"
+        [routerLink]="['/admin-orders']"
+        class="btn btn-default"
+      >
+        취소
+      </button>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+      {{ error }}
+    </div>
+  </div>
+</div>

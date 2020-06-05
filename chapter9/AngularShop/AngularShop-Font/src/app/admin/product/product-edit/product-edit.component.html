@@ -1,0 +1,279 @@
+<div class="category-edit">
+  <h1>{{ title }}</h1>
+
+  <div class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">상품명:</label>
+      <br />
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        required
+        placeholder="상품명..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('name')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('name')">
+          상품명은 필수입니다.
+        </div>
+        <div *ngIf="hasDupeFieldError('name')">
+          이미 존재하는 상품명입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">상세 설명:</label>
+      <br />
+      <input
+        type="text"
+        id="description"
+        formControlName="description"
+        required
+        placeholder="상세 설명..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('description')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('description')">
+          상세 설명은 필수입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="categoryId">제조사:</label>
+      <br>
+      <mat-form-field *ngIf="makers" style="width:100%;">
+        <mat-label>제조사를 선택하세요...</mat-label>
+        <mat-select id="makerId" formControlName="makerId">
+          <mat-option *ngFor="let maker of makers"
+            [value]="maker.id">
+            {{maker.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="hasError('makerId')"
+        class="invalid-feedback">
+        <div *ngIf="hasRequiredError('makerId')">
+          제조사를 선택해주세요.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">분류 위치:</label>
+      <br />
+      <div class="form-control">
+        <div class="inline">
+          선택된 분류 : {{ getSelectedNodeNames() }}
+        </div>
+        <div class="commands text-right">
+          <button
+            type="button"
+            (click)="clearSelectedNode()"
+            class="btn btn-primary"
+          >
+            선택된 분류 초기화
+          </button>
+        </div>
+        <br />
+        <!-- Angular Material 트리 컴포넌트 -->
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+          <!-- 잎 노드(자식이 없는 노드)를 포현할 템플릿 -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            <button mat-icon-button (click)="selectionChanged(node)">
+              <!-- 현재 선택된 노드 강조 표시 -->
+              <span *ngIf="isSelectedNode(node)" style="color: red;">
+                {{ node.name }}
+              </span>
+              <!-- 일반 노드 표시 -->
+              <span *ngIf="!isSelectedNode(node)">
+                {{ node.name }}
+              </span>
+            </button>
+          </mat-tree-node>
+          <!-- 자식이 있는 확장 가능한 노드의 템플릿 -->
+          <mat-tree-node
+            *matTreeNodeDef="let node; when: hasChild"
+            matTreeNodePadding
+          >
+            <button
+              mat-icon-button
+              matTreeNodeToggle
+              [attr.aria-label]="'toggle ' + node.name"
+              (click)="selectionChanged(node)"
+            >
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{
+                  treeControl.isExpanded(node) ? "expand_more" : "chevron_right"
+                }}
+              </mat-icon>
+              <!-- 현재 선택된 노드 강조 표시 -->
+              <span *ngIf="isSelectedNode(node)" style="color: red;">
+                {{ node.name }}
+              </span>
+              <!-- 일반 노드 표시 -->
+              <span *ngIf="!isSelectedNode(node)">
+                {{ node.name }}
+              </span>
+            </button>
+          </mat-tree-node>
+        </mat-tree>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">태그:</label>
+      <br />
+      <input
+        type="text"
+        id="tags"
+        formControlName="tags"
+        required
+        placeholder="태그..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('tags')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('tags')">
+          태그는 필수입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">가격:</label>
+      <br />
+      <input
+        type="text"
+        id="price"
+        formControlName="price"
+        required
+        placeholder="가격..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('price')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('price')">
+          가격은 필수입니다.
+        </div>
+        <div *ngIf="hasPatternError('price')">
+          가격은 소수점 둘째 자리까지를 포함한 숫자만 허용됩니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">할인율:</label>
+      <br />
+      <input
+        type="text"
+        id="discount"
+        formControlName="discount"
+        required
+        placeholder="할인율..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('discount')" class="invalid-feedback">
+        <div *ngIf="hasPatternError('discount') || hasMinOrMaxError('discount')">
+          할인율은 0-100 사이의 소수점 둘째자리까지만 허용됩니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">재고량:</label>
+      <br />
+      <input
+        type="text"
+        id="stockCount"
+        formControlName="stockCount"
+        required
+        placeholder="재고량..."
+        class="form-control"
+      />
+
+      <div *ngIf="hasError('stockCount')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('stockCount')">
+          재고량은 필수입니다.
+        </div>
+        <div *ngIf="hasPatternError('stockCount')">
+          재고량은 숫자만 허용됩니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">판매중:</label>
+      <br />
+      <input
+        type="checkbox"
+        id="isVisible"
+        formControlName="isVisible"
+        class="form-control"/>
+
+      <div *ngIf="hasError('isVisible')" class="invalid-feedback">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="photoUrl">제품 사진</label>
+      <div>
+        <div style="display: flex;">
+          <div *ngFor="let photoUrl of photoUrls" class="image-area">
+            <img [src]="photoUrl">
+            <a class="remove-image" (click)="removeImage(photoUrl)" style="display: inline;">&#215;</a>
+          </div>
+        </div>
+        <div class="btns clearfix">
+            <label class="btn btn-file btn-cancel">사진을 고르세요
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/*"
+                    multiple
+                    (change)="onImageFileChange($event)"
+                    #fileInput>
+            </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group command">
+      <button
+        *ngIf="id"
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="form.invalid || loading"
+        class="btn btn-success"
+      >
+        수정
+      </button>
+      <button
+        *ngIf="!id"
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="form.invalid || loading"
+        class="btn btn-success"
+      >
+        추가
+      </button>
+      <button
+        type="submit"
+        [routerLink]="['/admin-products']"
+        class="btn btn-default"
+      >
+        취소
+      </button>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+      {{ error }}
+    </div>
+  </div>
+</div>
