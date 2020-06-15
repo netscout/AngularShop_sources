@@ -1,0 +1,20 @@
+.width100p {
+  width: 100%
+}
+
+.width50p {
+  width: 50%
+}
+
+.leftMargin25px {
+  margin-left: 25px;
+}
+
+.inline {
+  display: inline;
+}
+
+.list-item-image {
+  width: 25px;
+  height: 25px;
+}
