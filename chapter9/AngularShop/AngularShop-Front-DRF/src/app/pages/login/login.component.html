@@ -1,0 +1,115 @@
+<!-- Header -->
+
+<app-header></app-header>
+
+<!-- Menu -->
+
+<app-small-menu></app-small-menu>
+
+<div class="home">
+  <div class="home_container">
+    <div class="home_background" style="background-image:url(images/contact.jpg)"></div>
+    <div class="home_content_container">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="home_content">
+              <div class="breadcrumbs">
+                <ul>
+                  <li><a [routerLink]="['/']">Home</a></li>
+                  <li>Login</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 mt-5">
+      <div class="card">
+        <h4 class="card-header">로그인</h4>
+        <div class="card-body">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="email">이메일:</label>
+              <input
+                type="text"
+                id="email"
+                formControlName="email"
+                required
+                placeholder="이메일을 입력하세요..."
+                class="form-control"
+              />
+
+              <div *ngIf="hasError('email')" class="invalid-feedback">
+                <div *ngIf="hasRequiredError('email')">
+                  아이디는 필수입니다.
+                </div>
+                <div *ngIf="hasPatternError('email')">
+                  아이디는 형식에 맞는 이메일이어야 합니다.
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">패스워드</label>
+              <input
+                type="password"
+                id="password"
+                formControlName="password"
+                required
+                class="form-control"
+              />
+              <div *ngIf="hasError('password')" class="invalid-feedback">
+                <div *ngIf="hasRequiredError('password')">
+                  패스워드는 필수입니다.
+                </div>
+                <div *ngIf="hasPatternError('password')">
+                  패스워드는 최소 8자 이상으로, 하나 이상의 알파벳 소문자, 하나 이상의 숫자, 하나 이상의 특수문자를 포함해야 합니다.
+                </div>
+              </div>
+            </div>
+            <div class="form-group command">
+              <button
+                type="submit"
+                [disabled]="form.invalid || loading"
+                class="btn btn-success">
+                <span
+                  *ngIf="loading"
+                  class="spinner-border spinner-border-sm mr-1"
+                ></span>
+                로그인
+              </button>
+            </div>
+
+            <div class="card bg-light mb-3">
+              <div class="card-header">소셜 로그인</div>
+              <div class="card-body">
+                <div class="form-group command">
+                  <button
+                    type="button"
+                    (click)="signInWithGoogle()"
+                    class="btn btn-success">
+                    구글
+                  </button>
+                  <a id="kakao-login-btn"></a>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+              {{ error }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<app-footer></app-footer>

@@ -1,0 +1,134 @@
+<div class="category-edit">
+  <h1>{{ title }}</h1>
+
+  <!-- Angular Reactive Form -->
+  <div class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">분류명:</label>
+      <br />
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        required
+        placeholder="이름"
+        class="form-control"
+      />
+
+      <!-- name속성과 관련된 에러 발생시 표시 -->
+      <div *ngIf="hasError('name')" class="invalid-feedback">
+        <div *ngIf="hasRequiredError('name')">
+          분류명은 필수입니다.
+        </div>
+        <div *ngIf="hasDupeFieldError('name')">
+          이미 존재하는 분류입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">분류 위치:</label>
+      <br />
+      <div class="form-control">
+        <div class="inline">
+          상위 분류 : <span *ngIf="parentNode">{{ parentNode.name }}</span>
+          <span *ngIf="!parentNode">없음</span>
+        </div>
+        <div class="commands text-right">
+          <button
+            type="button"
+            (click)="setRootNode()"
+            class="btn btn-primary"
+          >
+            최상위 분류로 설정
+          </button>
+        </div>
+        <br />
+        <!-- Angular Material 트리 컴포넌트 -->
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+          <!-- 잎 노드(자식이 없는 노드)를 포현할 템플릿 -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            <button mat-icon-button (click)="selectionChanged(node)">
+              <!-- 현재 편집하는 노드 강조 표시 -->
+              <span *ngIf="isCurrentNode(node)" style="color: red;">
+                {{node.name}}
+              </span>
+              <!-- 현재 편집하는 노드의 부모 노드 강조 표시 -->
+              <span *ngIf="isParentNode(node)" style="color: blue;">
+                {{node.name}}
+              </span>
+              <!-- 일반 노드 표시 -->
+              <span *ngIf="!isCurrentNode(node) && !isParentNode(node)">
+                {{node.name}}
+              </span>
+            </button>
+          </mat-tree-node>
+          <!-- 자식이 있는 확장 가능한 노드의 템플릿 -->
+          <mat-tree-node
+            *matTreeNodeDef="let node; when: hasChild"
+            matTreeNodePadding
+          >
+            <button
+              mat-icon-button
+              matTreeNodeToggle
+              [attr.aria-label]="'toggle ' + node.name"
+              (click)="selectionChanged(node)"
+            >
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{
+                  treeControl.isExpanded(node)
+                  ? "expand_more"
+                  : "chevron_right"
+                }}
+              </mat-icon>
+              <!-- 현재 편집하는 노드 강조 표시 -->
+              <span *ngIf="isCurrentNode(node)" style="color: red;">
+                {{node.name}}
+              </span>
+              <!-- 현재 편집하는 노드의 부모 노드 강조 표시 -->
+              <span *ngIf="isParentNode(node)" style="color: blue;">
+                {{node.name}}
+              </span>
+              <!-- 일반 노드 표시 -->
+              <span *ngIf="!isCurrentNode(node) && !isParentNode(node)">
+                {{node.name}}
+              </span>
+            </button>
+          </mat-tree-node>
+        </mat-tree>
+      </div>
+    </div>
+
+    <div class="form-group command">
+      <button
+        *ngIf="id"
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="form.invalid || loading"
+        class="btn btn-success"
+      >
+        수정
+      </button>
+      <button
+        *ngIf="!id"
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="form.invalid || loading"
+        class="btn btn-success"
+      >
+        추가
+      </button>
+      <button
+        type="submit"
+        [routerLink]="['/admin-categories']"
+        class="btn btn-default"
+      >
+        취소
+      </button>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">
+      {{ error }}
+    </div>
+  </div>
+</div>

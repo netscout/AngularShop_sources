@@ -86,12 +86,12 @@ export class CommonService {
 
       params = params.set(
         "ordering",
-        `${sortDirection}${sortColumn}`);
+        `${sortDirection}${this.toSnake(sortColumn)}`);
 
       if(filterQuery) {
         params = params.set(
           filterColumn,
-          filterQuery);
+          this.toSnake(filterQuery));
       }
     }
     else {

@@ -1,0 +1,27 @@
+{
+  "/api": {
+    "target": "http://localhost:8000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/images": {
+    "target": "http://localhost:8000/static",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/styles": {
+    "target": "http://localhost:8000/static",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/js": {
+    "target": "http://localhost:8000/static",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/plugins": {
+    "target": "http://localhost:8000/static",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
