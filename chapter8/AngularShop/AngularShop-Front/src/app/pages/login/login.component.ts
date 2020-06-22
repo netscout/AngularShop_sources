@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService }
   from 'src/app/services/authentication.service';
 import { CommonService } from 'src/app/services/common.service';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -28,7 +28,7 @@ extends BaseFormComponent
     private router: Router,
     private authService: AuthenticationService,
     private commService: CommonService,
-    private extAuthService: AuthService
+    private extAuthService: SocialAuthService
   ) {
     super();
 

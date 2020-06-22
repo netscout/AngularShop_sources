@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService }
   from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'angularx-social-login';
+import { SocialAuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-logout-page',
@@ -14,7 +14,7 @@ export class LogoutPageComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private extAuthService: AuthService,
+    private extAuthService: SocialAuthService,
   ) { }
 
   ngOnInit(): void {

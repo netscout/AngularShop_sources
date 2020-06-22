@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core';
 
-import { SocialLoginModule, AuthServiceConfig,
+import { SocialLoginModule, SocialAuthServiceConfig,
   GoogleLoginProvider } from "angularx-social-login";
 
-let config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(
-      "167144325628-qb33vqa1fau09m2ndie53f1qqndo48f0.apps.googleusercontent.com"
-      )
-  }
-]);
+let config = {
+  autoLogin: false,
+  providers:[
+    {
+      id: GoogleLoginProvider.PROVIDER_ID,
+      provider: new GoogleLoginProvider(
+        "..."
+        )
+    }
+  ]
+};
 
 export function provideConfig() {
-  return config;
+  return config as SocialAuthServiceConfig;
 }
 
 @NgModule({
@@ -22,7 +25,7 @@ export function provideConfig() {
   ],
   providers: [
     {
-      provide: AuthServiceConfig,
+      provide: "SocialAuthServiceConfig",
       useFactory: provideConfig
     }
   ]
