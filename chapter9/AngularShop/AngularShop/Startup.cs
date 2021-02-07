@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Microsoft.OpenApi.Models;
 
 namespace AngularShop
 {
@@ -52,6 +53,19 @@ namespace AngularShop
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Formatting = Formatting.Indented;
                 });
+
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo {
+                    Title = "AngularShop 백엔드",
+                    Version = "v1",
+                    Description = "AngularShop의 ASP.NET Core 3.1 백엔드",
+                    Contact = new OpenApiContact {
+                        Name = "OnlifeCoding",
+                        Email = string.Empty,
+                        Url = new Uri("https://blog.naver.com/netscout82")
+                    }
+                });
+            });
 
             services.AddDbContext<ApplicationDbContext>(
                 options =>
@@ -135,6 +149,14 @@ namespace AngularShop
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AngularShop API V1");
+
+                c.RoutePrefix = string.Empty;
+            });
 
             //인증에 활용할 쿠키 설정
             app.UseCookiePolicy(new CookiePolicyOptions

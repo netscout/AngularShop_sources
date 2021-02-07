@@ -83,7 +83,10 @@ class UserViewSet(
             }
         )
 
-    @action(detail=False)    
+    #누구나 접근 가능
+    @action(
+        detail=False,
+        permission_classes=[permissions.AllowAny])
     def generate_users(self, request):
         """
         기본 사용자 추가 및 그룹 설정

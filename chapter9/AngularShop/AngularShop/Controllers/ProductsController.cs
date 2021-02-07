@@ -196,6 +196,7 @@ $@"SELECT * FROM Products WHERE id IN
 
         //관리자 권한 필요
         [Authorize(Roles = Constants.DefaultAdminRole)]
+        [HttpPost]
         [Route("Update")]
         public async Task<ActionResult> UpdateProduct([FromForm] ProductDTO req)
         {

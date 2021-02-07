@@ -246,10 +246,10 @@ class ProductViewSet(
     #ViewSet에서 기본 제공되는 액션 외에 추가로 정의하는 액션
     #detail=True 설정시 접근 url : ~~/{pk}/{함수 명}
     #detail=False 설정시 접근 url : ~~/{함수 명}
-    #관리자 권한 필요
+    #누구나 접근 가능
     @action(
         detail=False,
-        permission_classes=[permissions.IsAdminUser])
+        permission_classes=[permissions.AllowAny])
     @action(detail=False)
     def generate_products(self, request):
         #제조 회사 데이터 정의

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace AngularShop.Controllers
 {
     //관리자 권한 필요
-    [Authorize(Roles = Constants.DefaultAdminRole)]
+    // [Authorize(Roles = Constants.DefaultAdminRole)]
     [Route("api/[controller]")]
     [ApiController]
     public class SeedController : ControllerBase

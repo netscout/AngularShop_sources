@@ -1,6 +1,6 @@
 spring:  
   datasource:
-    url: &dbURL jdbc:mysql://localhost:3306/AngularShop2?useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: &dbURL jdbc:mysql://localhost:3306/AngularShop?useLegacyDatetimeCode=false&serverTimezone=UTC
     username: &dbUser user
     password: &dbPassword 1234
   jpa:

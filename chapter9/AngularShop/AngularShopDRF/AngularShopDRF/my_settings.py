@@ -1,7 +1,7 @@
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'AngularShop3',
+        'NAME': 'AngularShop',
         'USER': 'user',
         'PASSWORD': '1234',
         'HOST': 'localhost',

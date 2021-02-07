@@ -48,7 +48,7 @@ class SecurityConfig(
                 .antMatchers(HttpMethod.POST, "/api/Account/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/Token/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/api/Token/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/Seed/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/Seed/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/Orders").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/Orders").hasRole("ADMIN")
                 .anyRequest().authenticated()
