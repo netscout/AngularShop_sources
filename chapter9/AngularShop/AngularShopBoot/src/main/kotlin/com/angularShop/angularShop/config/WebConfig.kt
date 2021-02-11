@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class WebConfig : WebMvcConfigurer {
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:///c:/Sources/AngularShop/images/")
+                .addResourceLocations("file:///c:/Sources/AngularShop_sources/chapter9/AngularShop/images/")
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/")
     }

@@ -174,6 +174,19 @@ OpenJDK 64-Bit Server VM (AdoptOpenJDK)(build 25.282-b08, mixed mode)
 
 ### Spring Boot 프로젝트 실행
 
+우선 업로드되는 이미지가 저장될 images폴더의 경로를 설정해줍니다. __WebConfig.kt__ 에서 __images/**__ 와 매핑되는 폴더를 현재 폴더 위치와 맞게 설정합니다.
+
+```kotlin
+class WebConfig : WebMvcConfigurer {
+    override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:///c:/Sources/AngularShop_sources/chapter9/AngularShop/images/")
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/")
+    }
+}
+```
+
 다음 명령을 통해 프로젝트를 실행합니다.
 
 ```bash
@@ -367,10 +380,32 @@ export const environment = {
 C:\Sources\AngularShop_sources\chapter9\AngularShop\AngularShop-Front>ng serve
 ```
 
-__내용 작성중.....__
+그리고 __https://localhost:5001/index__ 을 통해 Angular 앱에 접속하면 페이지를 확인할 수 있습니다.
 
 #### Angular 프로젝트 실행하기 - Spring Boot
 
-__내용 작성중.....__
+Spring Boot는 Angular앱으로 들어오는 요청을 백엔드로 전달하는 방식의 프록시를 사용합니다.
+
+자세한 내용은 [Spring Boot Proxy 설정 참고자료]를 참고하면 확인할 수 있습니다.
+
+[Spring Boot Proxy 설정 참고자료]: https://blog.naver.com/netscout82/221994635036 "Proxy 설정 참고자료"
+
+__/src/environments/environment.ts__ 파일의 __baseUrl__ 속성 값을 Angular앱의 주소로 설정해줍니다.
+
+```javascript
+export const environment = {
+  production: false,
+  baseUrl: "http://localhost:4200/"
+};
+```
+
+그리고 다음 명령어를 통해 Angular 프로젝트를 실행합니다.
+
+```bash
+C:\Sources\AngularShop_sources\chapter9\AngularShop\AngularShop-Front>ng serve --proxy-config=proxy.conf.json
+```
+
+그리고 __https://localhost:4200__ 을 통해 Angular 앱에 접속하면 페이지를 확인할 수 있습니다.
 
 #### Angular 프로젝트 실행하기 - DRF
+
