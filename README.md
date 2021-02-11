@@ -1,10 +1,10 @@
-# Angular 9 / ASP.NET Core 3.1 / Spring Boot 2.3 with Kotlin / DRF 3.11
+# Angular 11 / ASP.NET Core 3.1 / Spring Boot 2.3 with Kotlin / DRF 3.11
 
 개인적인 공부를 위해 간단한 쇼핑몰 샘플을 제작한 프로젝트입니다.
 
 그동안 SPA를 통한 프론트엔드 구현과 SPA-백엔드 간의 통신, 그리고 ASP.NET Core 3.1 등의 최신 ASP.NET Core 구현과 Spring Boot, Django Rest Framework(이하 DRF)등의 구현에 대해 궁금했기에 궁금증을 해소하기 위해서 프로젝트를 진행하게 되었습니다.
 
-Angular 9으로 프론트엔드가 구현되었으며 동일한 프론트엔드에 대해 같은 기능을 하는 백엔드를 각각 ASP.NET Core 3.1, Spring Boot 2.3(Kotlin), DRF 3.11로 구현하였습니다.
+Angular 11으로 프론트엔드가 구현되었으며 동일한 프론트엔드에 대해 같은 기능을 하는 백엔드를 각각 ASP.NET Core 3.1, Spring Boot 2.3(Kotlin), DRF 3.11로 구현하였습니다.
 (DRF의 경우 속성명을 캐멀 케이스 대신에 스네이크 케이스를 사용하는 탓에 Angular 프로젝트가 구분되어 있습니다.)
 
 처음에는 책 형태로 정리하려고 생각했었기에 소스코드가 책의 각 챕터에 해당하도록 구성되어 있으며, 각 챕터의 내용은 https://blog.naver.com/netscout82/221993591322 에서 확인하실 수 있습니다.
@@ -84,7 +84,9 @@ Bye
 
 ### .NET Core SDK 설치
 
-기존의 .NET은 윈도우 기반의 .Net Framework 4.8, 크로스 플랫폼 .NET Core 3.1 으로 나뉘어 있었지만, 둘을 합쳐서 크로스 플랫폼 기반의 .NET 5로 통합되었습니다. 이 프로젝트에서는 .NET Core 3.1을 사용하고 있으므로 [.NET Core SDK] 중에서 3.1 버전 SDK를 다운로드 하여 설치합니다.
+기존의 .NET은 윈도우 기반의 .Net Framework 4.8, 크로스 플랫폼 .NET Core 3.1 으로 나뉘어 있었지만, 둘을 합쳐서 크로스 플랫폼 기반의 .NET 5로 통합되었습니다.
+
+이 프로젝트에서는 .NET Core 3.1을 사용하고 있으므로 [.NET Core SDK] 중에서 3.1 버전 SDK를 다운로드 하여 설치합니다.
 
 [.NET Core SDK]: https://dotnet.microsoft.com/download ".NET Core SDK 다운로드"
 
@@ -409,3 +411,16 @@ C:\Sources\AngularShop_sources\chapter9\AngularShop\AngularShop-Front>ng serve -
 
 #### Angular 프로젝트 실행하기 - DRF
 
+DRF는 Angular앱으로 들어오는 요청을 백엔드로 전달하는 방식의 프록시를 사용합니다.
+
+자세한 내용은 [DRF Proxy 설정 참고자료]를 참고하면 확인할 수 있습니다.
+
+[DRF 설정 참고자료]: https://blog.naver.com/netscout82/222008503417 "Proxy 설정 참고자료"
+
+그리고 다음 명령어를 통해 Angular 프로젝트를 실행합니다.
+
+```bash
+C:\Sources\AngularShop_sources\chapter9\AngularShop\AngularShop-Front-DRF>ng serve --proxy-config=proxy-drf.conf.json
+```
+
+그리고 __https://localhost:4200__ 을 통해 Angular 앱에 접속하면 페이지를 확인할 수 있습니다.
