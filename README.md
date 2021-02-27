@@ -350,7 +350,7 @@ C:\Sources\AngularShop_sources\chapter9\AngularShop\AngularShop-Front>nvm use 14
 Now using node v14.15.4 (64-bit)
 ```
 
-### Angular 프로젝트 구성
+### Node 패키지 설치
 
 다음 명령어로 필요한 Node 패키지를 설치합니다.
 
@@ -415,7 +415,7 @@ DRF는 Angular앱으로 들어오는 요청을 백엔드로 전달하는 방식�
 
 자세한 내용은 [DRF Proxy 설정 참고자료]를 참고하면 확인할 수 있습니다.
 
-[DRF 설정 참고자료]: https://blog.naver.com/netscout82/222008503417 "Proxy 설정 참고자료"
+[DRF Proxy 설정 참고자료]: https://blog.naver.com/netscout82/222008503417 "Proxy 설정 참고자료"
 
 그리고 다음 명령어를 통해 Angular 프로젝트를 실행합니다.
 
